@@ -95,6 +95,7 @@ public class registerActivity extends AppCompatActivity {
                                     Log.d(TAG, "onSuccess: user Profile is created for " + userID);
                                 }
                             });
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             progressBar.setVisibility(View.GONE);
                         }
@@ -111,6 +112,7 @@ public class registerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), Login_Activity.class));
+                overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
             }
         });
     }

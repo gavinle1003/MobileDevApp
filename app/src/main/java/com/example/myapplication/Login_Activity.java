@@ -71,6 +71,7 @@ public class Login_Activity extends AppCompatActivity {
                         if(task.isSuccessful()) {
                             Toast.makeText(Login_Activity.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             progressBar.setVisibility(View.GONE);
                         }
                         else {
@@ -86,6 +87,7 @@ public class Login_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), registerActivity.class));
+                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
             }
         });
     }
