@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -31,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore fStore;
     FirebaseAuth fAuth;
     String userID;
-    ProgressBar progressBar3;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -40,12 +42,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         userName = findViewById(R.id.messageTxt);
-        logout = findViewById(R.id.logOutBtn);
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
-        progressBar3 = findViewById(R.id.progressBar3);
-
-        progressBar3.setVisibility(View.VISIBLE);
 
         userID = fAuth.getCurrentUser().getUid();
         DocumentReference documentReference = fStore.collection("UserInformation").document(userID);
@@ -53,18 +51,36 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String user_name = documentSnapshot.getString("UserName");
-                userName.setText("Hi, " + user_name);
-                progressBar3.setVisibility(View.GONE);
+                userName.setText("Welcome, " + user_name);
             }
         });
+    }
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), Login_Activity.class));
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            }
-        });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        if (item.getItemId() == R.id.action_settings) {
+            openSettings();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    public void openSettings() {
+        startActivity(new Intent(getApplicationContext(), setting_activity.class));
+    }
+
+    public void mapActivity(View view) {
+        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+    }
+
+    public void WeatherView(View view) {
+        startActivity(new Intent(getApplicationContext(), weather_activity.class));
     }
 }
